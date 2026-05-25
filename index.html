@@ -8,8 +8,117 @@
     <meta name="description" content="Visual Language Navigation Platform for Embodied AI Research" />
     <script type="module" crossorigin src="/assets/index-DGH9F2z_.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CAZgtr1T.css">
+    <style>
+      .site-citation {
+        max-width: 56rem;
+        margin: 3rem auto 4rem;
+        padding: 0 1.25rem;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #1a1a1a;
+        border-top: 1px solid #e5e5e5;
+        padding-top: 2rem;
+      }
+      .site-citation h2 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem;
+      }
+      .site-citation__hint {
+        margin: 0 0 1rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: #555;
+      }
+      .site-citation__toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      .site-citation__copy {
+        font-size: 0.8125rem;
+        padding: 0.35rem 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #fafafa;
+        cursor: pointer;
+      }
+      .site-citation__copy:hover {
+        background: #f0f0f0;
+      }
+      .site-citation__copy:focus-visible {
+        outline: 2px solid #2563eb;
+        outline-offset: 2px;
+      }
+      .site-citation pre {
+        margin: 0;
+        padding: 1rem 1.1rem;
+        font-size: 0.78rem;
+        line-height: 1.5;
+        background: #f6f8fa;
+        border: 1px solid #e1e4e8;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+        white-space: pre;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
+
+    <footer class="site-citation" id="citation" aria-labelledby="citation-heading">
+      <h2 id="citation-heading">引用 / Citation（BibTeX）</h2>
+      <p class="site-citation__hint">
+        若您在论文或报告中使用了本平台，可将下列条目导入 .bib 文件或粘贴到文献管理工具。
+      </p>
+      <div class="site-citation__toolbar">
+        <button type="button" class="site-citation__copy" id="copy-bib" aria-label="复制 BibTeX 到剪贴板">
+          复制 BibTeX
+        </button>
+      </div>
+      <pre id="bibtex-block">@misc{gn0_2026,
+  title  = {{GN0}: Toward a Unified Paradigm for Generation, Evaluation, and Policy Learning in Visual-Language-Navigation},
+  author = {Xinhai Li and Xiaotao Zhang and Yuehao Huang and Jiankun Dong and Tianhang Wang and Sunyao Zhou and Yunzi Wu and Chengnuo Sun and Yunfei Ge and Qizhen Weng and Chi Zhang and Chenjia Bai and Xuelong Li},
+  year   = {2026},
+  url    = {https://telehuman-gn0.github.io}
+}</pre>
+    </footer>
+
+    <script>
+      (function () {
+        var btn = document.getElementById("copy-bib");
+        var block = document.getElementById("bibtex-block");
+        if (!btn || !block) return;
+        btn.addEventListener("click", function () {
+          var text = block.textContent || "";
+          if (!text) return;
+          function fallbackCopy() {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand("copy");
+            } catch (e) {}
+            document.body.removeChild(ta);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(fallbackCopy);
+          } else {
+            fallbackCopy();
+          }
+          var orig = btn.textContent;
+          btn.textContent = "已复制";
+          setTimeout(function () {
+            btn.textContent = orig;
+          }, 1500);
+        });
+      })();
+    </script>
   </body>
 </html>
