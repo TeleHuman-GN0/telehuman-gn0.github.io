@@ -1,147 +1,263 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VLN Platform - Visual Language Navigation</title>
-    <meta name="description" content="Visual Language Navigation Platform for Embodied AI Research" />
-    <script type="module" crossorigin src="/assets/index-DGH9F2z_.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CAZgtr1T.css">
-    <style>
-      /* Match .container.robotContainer + .sectionTitle from index-CAZgtr1T.css */
-      .site-citation {
-        box-sizing: border-box;
-        max-width: 1400px;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 56px 24px 48px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        color: #1a1a1a;
-      }
-      .site-citation h2 {
-        margin: 0 0 16px;
-        color: #1a1a1a;
-        text-align: center;
-        letter-spacing: -0.5px;
-        font-size: 36px;
-        font-weight: 700;
-      }
-      .site-citation__toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0.5rem;
-      }
-      .site-citation__copy {
-        font-size: 0.8125rem;
-        padding: 0.35rem 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        background: #fafafa;
-        cursor: pointer;
-      }
-      .site-citation__copy:hover {
-        background: #f0f0f0;
-      }
-      .site-citation__copy:focus-visible {
-        outline: 2px solid #2563eb;
-        outline-offset: 2px;
-      }
-      .site-citation pre {
-        margin: 0;
-        padding: 1rem 1.1rem;
-        font-size: 0.78rem;
-        line-height: 1.5;
-        background: #f6f8fa;
-        border: 1px solid #e1e4e8;
-        border-radius: 8px;
-        overflow-x: auto;
-        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
-        white-space: pre;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app"></div>
 
-    <!-- 加载后由脚本移至 #app 内、站点页脚之前（Supported Robots 区块与版权单位之间） -->
-    <footer class="site-citation" id="citation" aria-labelledby="citation-heading">
-      <h2 id="citation-heading" class="sectionTitle">Citation</h2>
-      <div class="site-citation__toolbar">
-        <button type="button" class="site-citation__copy" id="copy-bib" aria-label="复制 BibTeX 到剪贴板">
-          复制 BibTeX
-        </button>
-      </div>
-      <pre id="bibtex-block">@misc{gn0_2026,
-  title  = {{GN0}: Toward a Unified Paradigm for Generation, Evaluation, and Policy Learning in Visual-Language-Navigation},
-  author = {Xinhai Li and Xiaotao Zhang and Yuehao Huang and Jiankun Dong and Tianhang Wang and Sunyao Zhou and Yunzi Wu and Chengnuo Sun and Yunfei Ge and Qizhen Weng and Chi Zhang and Chenjia Bai and Xuelong Li},
-  year   = {2026},
-  url    = {https://telehuman-gn0.github.io}
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLN Platform - Visual Language Navigation</title>
+  <meta name="description" content="Visual Language Navigation Platform for Embodied AI Research" />
+  <script type="module" crossorigin src="/assets/index-DGH9F2z_.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CAZgtr1T.css">
+  <style>
+    /* Match .container.robotContainer + .sectionTitle from index-CAZgtr1T.css */
+    .site-citation {
+      box-sizing: border-box;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 56px 24px 48px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      color: #1a1a1a;
+    }
+
+    .site-citation h2 {
+      margin: 0 0 16px;
+      color: #1a1a1a;
+      text-align: center;
+      letter-spacing: -0.5px;
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .site-citation__toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .site-citation__copy {
+      font-size: 0.8125rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+      cursor: pointer;
+    }
+
+    .site-citation__copy:hover {
+      background: #f0f0f0;
+    }
+
+    .site-citation__copy:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+
+    .site-citation pre {
+      margin: 0;
+      padding: 1rem 1.1rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .vln-ce-experiments {
+      box-sizing: border-box;
+      max-width: 1200px;
+      margin: 72px auto 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .vln-ce-experiments[data-pending="1"] {
+      display: none;
+    }
+
+    .vln-ce-experiments h2 {
+      margin: 0 0 16px;
+      color: #1a1a1a;
+      text-align: center;
+      letter-spacing: -0.5px;
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .vln-ce-experiments p {
+      margin: 0 0 32px;
+      color: #444;
+      text-align: justify;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .vln-ce-experiments__image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .vln-ce-experiments__image img {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px #0000001a;
+    }
+
+    @media (width <=640px) {
+      .vln-ce-experiments h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <div class="vln-ce-experiments" id="vln-ce-experiments" data-pending="1" aria-labelledby="vln-ce-experiments-heading">
+    <h2 id="vln-ce-experiments-heading">VLN-CE Experiments</h2>
+    <p>
+      We evaluate GN-BAE on the standard R2R-CE benchmark using the Validation Unseen split. As shown in
+      table below, GN-BAE achieves the best overall performance, reaching 3.50 NE, 75.6 OS, 67.7 SR, and 63.4
+      SPL using only single-view RGB input. Compared with the strongest prior RGB-only baseline, GN-BAE reduces NE by
+      17.5%(from 4.24 to 3.50m) while improving SR and SPL by 2.6 and 1.1 points, respectively, indicating better goal
+      localization and trajectory efficiency.
+    </p>
+    <div class="vln-ce-experiments__image">
+      <img src="/images/experiments_ce.png" alt="VLN-CE Experiments" />
+    </div>
+  </div>
+
+  <!-- 加载后由脚本移至 #app 内、站点页脚之前（Supported Robots 区块与版权单位之间） -->
+  <footer class="site-citation" id="citation" aria-labelledby="citation-heading">
+    <h2 id="citation-heading" class="sectionTitle">Citation</h2>
+    <div class="site-citation__toolbar">
+      <button type="button" class="site-citation__copy" id="copy-bib" aria-label="复制 BibTeX 到剪贴板">
+        复制 BibTeX
+      </button>
+    </div>
+    <pre id="bibtex-block">@article{li2026gn0,
+  title   = {GN0: Toward a Unified Paradigm for Generation, Evaluation, and Policy Learning in Visual-Language-Navigation},
+  author  = {Li, Xinhai and Zhang, Xiaotao and Huang, Yuehao and Dong, Jiankun and Wang, Tianhang and Zhou, Sunyao and Wu, Yunzi and Sun, Chengnuo and Ge, Yunfei and Weng, Qizhen and Zhang, Chi and Bai, Chenjia and Li, Xuelong},
+  journal = {arXiv preprint arXiv:2606.03682},
+  year    = {2026}
 }</pre>
-    </footer>
+  </footer>
 
-    <script>
-      (function () {
-        function placeCitation() {
-          var app = document.getElementById("app");
-          var cite = document.getElementById("citation");
-          if (!app || !cite || cite.dataset.placed === "1") return;
-          var siteFooter = app.querySelector("footer:not(.site-citation)");
-          if (!siteFooter) return;
-          siteFooter.parentNode.insertBefore(cite, siteFooter);
-          cite.dataset.placed = "1";
-        }
-        placeCitation();
-        var appEl = document.getElementById("app");
-        if (appEl) {
-          var mo = new MutationObserver(function () {
-            placeCitation();
-            if (document.getElementById("citation") &&
-                document.getElementById("citation").dataset.placed === "1") {
-              mo.disconnect();
-            }
-          });
-          mo.observe(appEl, { childList: true, subtree: true });
-          setTimeout(function () {
-            mo.disconnect();
-          }, 15000);
-        }
-
-        var btn = document.getElementById("copy-bib");
-        var block = document.getElementById("bibtex-block");
-        if (!btn || !block) return;
-        btn.addEventListener("click", function () {
-          var text = block.textContent || "";
-          if (!text) return;
-          function fallbackCopy() {
-            var ta = document.createElement("textarea");
-            ta.value = text;
-            ta.setAttribute("readonly", "");
-            ta.style.position = "fixed";
-            ta.style.left = "-9999px";
-            document.body.appendChild(ta);
-            ta.select();
-            try {
-              document.execCommand("copy");
-            } catch (e) {}
-            document.body.removeChild(ta);
-          }
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).catch(fallbackCopy);
-          } else {
-            fallbackCopy();
-          }
-          var orig = btn.textContent;
-          btn.textContent = "已复制";
-          setTimeout(function () {
-            btn.textContent = orig;
-          }, 1500);
+  <script>
+    (function () {
+      function placeCitation() {
+        var app = document.getElementById("app");
+        var cite = document.getElementById("citation");
+        if (!app || !cite || cite.dataset.placed === "1") return;
+        var siteFooter = app.querySelector("footer:not(.site-citation)");
+        if (!siteFooter) return;
+        siteFooter.parentNode.insertBefore(cite, siteFooter);
+        cite.dataset.placed = "1";
+      }
+      function placeVlnCeExperiments() {
+        var app = document.getElementById("app");
+        var block = document.getElementById("vln-ce-experiments");
+        if (!app || !block || block.dataset.placed === "1") return;
+        var experimentsContainer = app.querySelector("#experiments .container");
+        if (!experimentsContainer) return;
+        experimentsContainer.appendChild(block);
+        block.dataset.placed = "1";
+        block.removeAttribute("data-pending");
+      }
+      function patchHeroButtons() {
+        var app = document.getElementById("app");
+        if (!app || app.dataset.heroButtonsPatched === "1") return;
+        var links = {
+          Paper: "https://arxiv.org/abs/2606.03682",
+          Code: "https://github.com/TeleHuman/GN0",
+          Models: "https://huggingface.co/TeleEmbodied/GN-BAE"
+        };
+        var wrappers = app.querySelectorAll(".heroActions .btnWrapper");
+        if (!wrappers.length) return;
+        wrappers.forEach(function (wrapper) {
+          var link = wrapper.querySelector("a.btn");
+          if (!link) return;
+          var label = link.textContent.trim();
+          var url = links[label];
+          if (!url) return;
+          link.href = url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          var comingSoon = wrapper.querySelector(".comingSoon");
+          if (comingSoon) comingSoon.remove();
         });
-      })();
-    </script>
-  </body>
+        app.dataset.heroButtonsPatched = "1";
+      }
+      function allInjectedContentPlaced() {
+        var cite = document.getElementById("citation");
+        var vlnCe = document.getElementById("vln-ce-experiments");
+        var app = document.getElementById("app");
+        return cite && cite.dataset.placed === "1" &&
+          vlnCe && vlnCe.dataset.placed === "1" &&
+          app && app.dataset.heroButtonsPatched === "1";
+      }
+      patchHeroButtons();
+      placeVlnCeExperiments();
+      placeCitation();
+      var appEl = document.getElementById("app");
+      if (appEl) {
+        var mo = new MutationObserver(function () {
+          patchHeroButtons();
+          placeVlnCeExperiments();
+          placeCitation();
+          if (allInjectedContentPlaced()) {
+            mo.disconnect();
+          }
+        });
+        mo.observe(appEl, { childList: true, subtree: true });
+        setTimeout(function () {
+          mo.disconnect();
+        }, 15000);
+      }
+
+      var btn = document.getElementById("copy-bib");
+      var block = document.getElementById("bibtex-block");
+      if (!btn || !block) return;
+      btn.addEventListener("click", function () {
+        var text = block.textContent || "";
+        if (!text) return;
+        function fallbackCopy() {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand("copy");
+          } catch (e) { }
+          document.body.removeChild(ta);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(fallbackCopy);
+        } else {
+          fallbackCopy();
+        }
+        var orig = btn.textContent;
+        btn.textContent = "已复制";
+        setTimeout(function () {
+          btn.textContent = orig;
+        }, 1500);
+      });
+    })();
+  </script>
+</body>
+
 </html>
