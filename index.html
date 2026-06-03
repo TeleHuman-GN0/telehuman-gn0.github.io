@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VLN Platform - Visual Language Navigation</title>
   <meta name="description" content="Visual Language Navigation Platform for Embodied AI Research" />
-  <script type="module" crossorigin src="/assets/index-DGH9F2z_.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CAZgtr1T.css">
+  <script type="module" crossorigin src="/assets/index-DGH9F2z_.js?v=20260603"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CAZgtr1T.css?v=20260603">
   <style>
     /* Match .container.robotContainer + .sectionTitle from index-CAZgtr1T.css */
     .site-citation {
@@ -199,21 +199,34 @@
         });
         app.dataset.heroButtonsPatched = "1";
       }
+      function patchHeroVideo() {
+        var app = document.getElementById("app");
+        if (!app || app.dataset.heroVideoPatched === "1") return;
+        var source = app.querySelector(".heroVideo source");
+        if (!source) return;
+        source.src = "/videos/hero-bg.mp4?v=20260603";
+        var video = source.parentElement;
+        if (video && typeof video.load === "function") video.load();
+        app.dataset.heroVideoPatched = "1";
+      }
       function allInjectedContentPlaced() {
         var cite = document.getElementById("citation");
         var vlnCe = document.getElementById("vln-ce-experiments");
         var app = document.getElementById("app");
         return cite && cite.dataset.placed === "1" &&
           vlnCe && vlnCe.dataset.placed === "1" &&
-          app && app.dataset.heroButtonsPatched === "1";
+          app && app.dataset.heroButtonsPatched === "1" &&
+          app.dataset.heroVideoPatched === "1";
       }
       patchHeroButtons();
+      patchHeroVideo();
       placeVlnCeExperiments();
       placeCitation();
       var appEl = document.getElementById("app");
       if (appEl) {
         var mo = new MutationObserver(function () {
           patchHeroButtons();
+          patchHeroVideo();
           placeVlnCeExperiments();
           placeCitation();
           if (allInjectedContentPlaced()) {
